@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Meu Carrinho{% endblock title %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col md 8">
+            <h4>Itens do Carrinho</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                       <th>Código</th>
+                       <th>Produto</th>
+                       <th>Avaliação</th>
+                       <th>Quantidade</th>
+                       <th>Subtotal</th>
+                       <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cp in carro.carroproduto_set.all %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ cp.produto.titulo }}</td>
+                        <td>{{ cp.avaliacao }}</td>
+                        <td>{{ cp.quantidade }}</td>
+                        <td>{{ cp.subtotal }}</td>
+                        <td>
+                            <a href="{% url 'lojaapp:manipularcarro' cp.id %}?acao-inc" class="btn btn-success"> + </a>
+                            <a href="{% url 'lojaapp:manipularcarro' cp.id %}?acao-dcr" class="btn btn-warning"> - </a>
+                            <a href="{% url 'lojaapp:manipularcarro' cp.id %}?acao-rmv" class="btn btn-danger"> X </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <th colspan="4" class="text-right" Total a pagar></th>
+                        <th>R$: {{carro.total}}</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
