@@ -94,17 +94,16 @@ class ManipularCarroView(View):
 
         return redirect("lojaapp:meucarro")
     
-class  LimparCarroView(TemplateView):
-    template_name = "limparcarro.html"
-    def get_context_data (self, **kworgs):
-        context = super().get_context_data(**kworgs)
-        carro_id = self.request.session.get("carro_id",None)
+class LimparCarroView(View):
+    def get(self, request, *args, **kwargs):
+        carro_id = request.session.get("carro_id", None)
         if carro_id:
             carro = Carro.objects.get(id=carro_id)
-        else:
-            carro = None
-        context['carro'] = carro
-        return context
+            carro.carroproduto_set.all().delete()
+            carro.total = 0
+            carro.save()
+        return redirect("lojaapp:meucarro")
+
 class  MeuCarroView(View):
     def get(self, request, *args, **kworgs):
         carro_id = request.session.get("carro_id",None)
