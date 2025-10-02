@@ -27,8 +27,8 @@ class Produto(models.Model):
     slug = models.SlugField(unique=True)
     categoria = models.ForeignKey(Categoria,on_delete=models.CASCADE)
     image = models.ImageField(upload_to="produtos")
-    mercado = models.PositiveIntegerField()
-    venda = models.PositiveIntegerField()
+    mercado = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    venda = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     descricao = models.TextField()
     garantia = models.CharField(max_length=300, null=True, blank=True)
     devolucao = models.CharField(max_length=300, null=True, blank=True)
@@ -39,7 +39,7 @@ class Produto(models.Model):
 
 class Carro(models.Model):
     cliente = models.ForeignKey(Cliente,on_delete=models.SET_NULL, null=True, blank=True)
-    total = models.PositiveIntegerField(default=0)
+    total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     criado_em = models.DateField(auto_now_add=True)
 
     def __str__(self):
@@ -48,9 +48,9 @@ class Carro(models.Model):
 class CarroProduto(models.Model):
     carro = models.ForeignKey(Carro,on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto,on_delete=models.CASCADE)
-    avaliacao = models.PositiveIntegerField()
+    avaliacao = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     quantidade = models.PositiveIntegerField()
-    subtotal = models.PositiveIntegerField()
+    subtotal = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
     def __str__(self):
         return "Carro:" + str (self.carro.id) + "CarroProduto:" + str (self.id)
@@ -71,9 +71,9 @@ class Pedido_order(models.Model):
     telefone = models.CharField(max_length=10)
     email = models.EmailField(null=True, blank=True)
     endereco_envio = models.CharField(max_length=200)
-    subtotal = models.PositiveIntegerField()
-    desconto = models.PositiveIntegerField()
-    total = models.PositiveIntegerField()
+    subtotal = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    desconto = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     pedido_status = models.CharField(max_length=50, choices=PEDIDO_STATUS)
     criado_em = models.DateTimeField(auto_now_add=True)
 

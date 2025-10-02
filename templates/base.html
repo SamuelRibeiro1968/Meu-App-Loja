@@ -9,11 +9,11 @@
 </head>
 <body>
    <div class="container mt-3">
-     <a href="{% url 'lojaapp:home' %}">HOME</a> |
-    <a href="{% url 'lojaapp:sobre' %}">SOBRE</a> |
-    <a href="{% url 'lojaapp:contato' %}">CONTATO</a> |
-    <a href="{% url 'lojaapp:Todosprodutos' %}">CATEGORIAS</a> |
-    <a href="{% url 'lojaapp:meucarro' %}">CARRINHO</a>
+    <a class="btn btn-success" href="{% url 'lojaapp:home' %}">HOME</a> |
+    <a class="btn btn-success" href="{% url 'lojaapp:sobre' %}">SOBRE</a> |
+    <a class="btn btn-success" href="{% url 'lojaapp:contato' %}">CONTATO</a> |
+    <a class="btn btn-success" href="{% url 'lojaapp:Todosprodutos' %}">CATEGORIAS</a> |
+    <a class="btn btn-success" href="{% url 'lojaapp:meucarro' %}">CARRINHO</a>
     <hr>
    </div>
     {% block content %}

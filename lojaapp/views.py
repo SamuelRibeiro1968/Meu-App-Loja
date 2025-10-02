@@ -68,27 +68,34 @@ class ManipularCarroView(View):
         carro_obj = cp_obj.carro
 
         if acao == "inc":
-            cp_obj.quantidade +=1
-            cp_obj.subtotal += cp_obj.quantidade
+            cp_obj.quantidade += 1
+            cp_obj.subtotal += cp_obj.avaliacao
             cp_obj.save()
             carro_obj.total += cp_obj.avaliacao
             carro_obj.save()
 
         elif acao == "dcr":
-            pass
-
+            if cp_obj.quantidade > 1:
+                cp_obj.quantidade -= 1
+                cp_obj.subtotal -= cp_obj.avaliacao
+                cp_obj.save()
+                carro_obj.total -= cp_obj.avaliacao
+                carro_obj.save()
+            else:
+                carro_obj.total -= cp_obj.subtotal
+                carro_obj.save()
+                cp_obj.delete()
         elif acao == "rmv":
             carro_obj.total -= cp_obj.subtotal
             carro_obj.save()
             cp_obj.delete()
-
         else:
             pass
 
         return redirect("lojaapp:meucarro")
     
-class  MeuCarroView(TemplateView):
-    template_name = "meucarro.html"
+class  LimparCarroView(TemplateView):
+    template_name = "limparcarro.html"
     def get_context_data (self, **kworgs):
         context = super().get_context_data(**kworgs)
         carro_id = self.request.session.get("carro_id",None)
@@ -98,7 +105,15 @@ class  MeuCarroView(TemplateView):
             carro = None
         context['carro'] = carro
         return context
-   
+class  MeuCarroView(View):
+    def get(self, request, *args, **kworgs):
+        carro_id = request.session.get("carro_id",None)
+        if carro_id:
+            carro = Carro.objects.get(id=carro_id)
+            carro.carroproduto_set.all().delete()
+            carro.total = 0
+            carro.save()
+        return redirect("lojaapp:meucarro")  
 class SobreView(TemplateView):
     template_name = "sobre.html"
 

@@ -13,7 +13,7 @@
                     <tr>
                        <th>Código</th>
                        <th>Produto</th>
-                       <th>Avaliação</th>
+                       <th>Valor Unitario</th>
                        <th>Quantidade</th>
                        <th>Subtotal</th>
                        <th>Ação</th>
@@ -24,19 +24,21 @@
                     <tr>
                         <td>{{ forloop.counter }}</td>
                         <td>{{ cp.produto.titulo }}</td>
-                        <td>{{ cp.avaliacao }}</td>
+                        <td>{{ cp.avaliacao|floatformat:2 }}</td>
                         <td>{{ cp.quantidade }}</td>
-                        <td>{{ cp.subtotal }}</td>
+                        <td>{{ cp.subtotal|floatformat:2 }}</td>
                         <td>
-                            <a href="{% url 'lojaapp:manipularcarro' cp.id %}?acao-inc" class="btn btn-success"> + </a>
-                            <a href="{% url 'lojaapp:manipularcarro' cp.id %}?acao-dcr" class="btn btn-warning"> - </a>
-                            <a href="{% url 'lojaapp:manipularcarro' cp.id %}?acao-rmv" class="btn btn-danger"> X </a>
+                            <a href="{% url 'lojaapp:manipularcarro' cp.id %}?acao=inc" class="btn btn-success"> + </a>
+                            <a href="{% url 'lojaapp:manipularcarro' cp.id %}?acao=dcr" class="btn btn-warning"> - </a>
+                            <a href="{% url 'lojaapp:manipularcarro' cp.id %}?acao=rmv" class="btn btn-danger"> X </a>
                         </td>
                     </tr>
                     {% endfor %}
                     <tr>
                         <th colspan="4" class="text-right" Total a pagar></th>
-                        <th>R$: {{carro.total}}</th>
+                        <th>R$: {{carro.total|floatformat:2}}</th>                  
+                            <th><a href="{% url 'lojaapp:limparcarro' %}" class="btn btn-warning">Limpar Carrinho</a></th>    
+                        </tr>
                     </tr>
                 </tbody>
             </table>

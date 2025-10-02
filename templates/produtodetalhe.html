@@ -15,7 +15,7 @@
     <div class="col-md-6">
         <h4>{{produto.titulo}} ( {{produto.visualizacao}} Visualizações)</h4>
         <h4>Categoria: {{produto.categoria}}</h4>
-        <h5>Preço: <strike>R$ {{produto.preco_mercado}}</strike> R$ {{produto.venda}}</h5>
+        <h5>Preço: <strike>R$ {{produto.mercado}}</strike> R$ {{produto.venda}}</h5>
         <a href="{% url 'lojaapp:addcarro' produto.id%}" class="btn btn-success">Adicionar ao Carrinho</a><hr>
         <p class="text-danger">Garantia: {{produto.garantia}}</p>
         <p class="text-danger">Devolução: {{produto.returm_devolucao}}</p>
