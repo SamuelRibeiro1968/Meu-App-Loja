@@ -1,3 +1,4 @@
+from urllib import request
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
 from.models import*
@@ -104,15 +105,29 @@ class LimparCarroView(View):
             carro.save()
         return redirect("lojaapp:meucarro")
 
-class  MeuCarroView(View):
-    def get(self, request, *args, **kworgs):
-        carro_id = request.session.get("carro_id",None)
+class MeuCarroView(TemplateView):
+    template_name = "meucarro.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        carro_id = self.request.session.get("carro_id", None)
         if carro_id:
             carro = Carro.objects.get(id=carro_id)
-            carro.carroproduto_set.all().delete()
-            carro.total = 0
-            carro.save()
-        return redirect("lojaapp:meucarro")  
+        else:
+            carro = None
+        context['carro'] = carro
+        return context
+    
+class CheckoutView(TemplateView):
+    template_name = "processar.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        carro_id = self.request.session.get("carro_id", None)
+        if carro_id:
+            carro_obj = Carro.objects.get(id=carro_id)
+        else:
+            carro_obj = None
+        context['carro'] = carro_obj
+        return context
 class SobreView(TemplateView):
     template_name = "sobre.html"
 

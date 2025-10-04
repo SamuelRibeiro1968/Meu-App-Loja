@@ -11,7 +11,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                       <th>Código</th>
+                       <th>Item</th>
                        <th>Produto</th>
                        <th>Valor Unitario</th>
                        <th>Quantidade</th>
@@ -36,10 +36,16 @@
                     {% endfor %}
                     <tr>
                         <th colspan="4" class="text-right" Total a pagar></th>
-                        <th>R$: {{carro.total|floatformat:2}}</th>                  
-                            <th><a href="{% url 'lojaapp:limparcarro' %}" class="btn btn-warning">Limpar Carrinho</a></th>    
-                        </tr>
+                        <th>R$: {{carro.total|floatformat:2}}</th>    
+                         {% if carro.carroproduto_set.all %}              
+                            <th><a href="{% url 'lojaapp:limparcarro' %}" class="btn btn-warning">Limpar Carrinho</a></th>
+                        {% endif %}    
                     </tr>
+                    {% if carro.carroproduto_set.all %}
+                    <tr>                                    
+                            <th><a href="{% url 'lojaapp:checkout' %}" class="btn btn-info">Processar Compra</a></th>                         
+                    </tr>
+                    {% endif %}
                 </tbody>
             </table>
         </div>
